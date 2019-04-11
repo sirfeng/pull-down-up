@@ -1,0 +1,116 @@
+<!doctype html>
+<html>
+    <head>
+		<meta http-equiv="Content-Type" content="text/html; charset=gb2312">
+        <title></title>
+        <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+        <style type="text/css">
+            .drop-downDiv{
+                font-size: 14px;
+                text-align: center;
+                height: 40px;
+            }
+            .drop-downDiv .icon{
+                vertical-align: middle;
+                display: inline-block;
+                width: 20px;
+                height: 40px;
+				background-image:url('icon/little-loading.gif');
+				transition:all 0.3s;
+				background-repeat:no-repeat;
+				background-position:center;
+                background-size:14px 18px;
+            }
+            .drop-downDiv .text{
+                vertical-align: middle;
+            }
+            .fscrollDiv{
+                position: absolute;
+                top: 0;
+				left: 0;
+				right: 0;
+                bottom: 0;
+                overflow: auto;
+            }
+			.down-up-content{
+				background: #FFFFFF;
+				position: absolute;
+				top: 0;width: 100%
+			}
+        </style>
+    </head>
+	<body>
+    <div id="abc" class="fscrollDiv">
+        <div id="drop-downDiv" class="drop-downDiv">
+            <span id="drop_downIcon" class="icon"></span>
+            <span id="drop_downText" class="text">下拉可刷新</span>
+        </div>
+        <div id="aaaa" class="down-up-content">
+            <div id="ccc">
+                <div style="height: 100px;">啊设计登录将防雷接地</div>
+                <div style="height: 100px;">啊设计登录将防雷接地</div>
+                <div style="height: 100px;">啊设计登录将防雷接地</div>
+                <div style="height: 100px;">啊设计登录将防雷接地</div>
+                <div style="height: 100px;">啊设计登录将防雷接地</div>
+                <div style="height: 100px;">啊设计登录将防雷接地</div>
+                <div style="height: 100px;">啊设计登录将防雷接地</div>
+                <div style="height: 100px;">啊设计登录将防雷接地</div>
+                <div style="height: 100px;">啊设计登录将防雷接地</div>
+            </div>
+            <div id="up_div" class="drop-downDiv" style="display: none;">
+                <span class="icon"></span>
+                <span class="text">正在加载</span>
+            </div>
+        </div>
+    </div>
+	    <script src="./js/index.js"></script>
+        <script type="text/javascript">
+            pull_up({
+                setElement:'aaaa',
+                setminH:40,//刷新零节点
+                startfn:function(){
+                    document.getElementById('up_div').style.display = 'block';
+                }
+            },ajaxfn2)
+            var i = 1;
+            function ajaxfn2(e){
+                setTimeout(function(){
+					e.success();
+					document.getElementById('up_div').style.display = 'none'
+					var nodes =document.createElement("div");
+					nodes.style.height = '100px';
+					nodes.innerHTML = 'asdfjlsajdfljasdf';
+					document.getElementById('ccc').appendChild(nodes);
+				},1000)
+            }
+            
+            drop_down({
+                setElement:'aaaa',
+                setminH:40,//下拉的最小高度
+                startfn:function(){//开始下拉
+                    document.getElementById('drop_downText').innerText = '下拉可刷新';
+					document.getElementById('drop_downIcon').style.cssText +='background-size:14px 18px;transform:rotateZ(0);-webkit-transform:rotateZ(0);background-image:url(icon/dropDown.png)'
+                },
+                movefn:function(e){//下拉移动实时y轴
+//                  console.log(e)
+                },
+                moveMinfn:function(){//下拉的最小高度
+                    document.getElementById('drop_downText').innerText = "松开以刷新";
+					document.getElementById('drop_downIcon').style.cssText +='transform:rotateZ(180deg);-webkit-transform:rotateZ(180deg);background-image:url(icon/dropDown.png)'
+                },
+                endfn:function(){
+                    document.getElementById('drop_downText').innerText = '正在刷新';
+					document.getElementById('drop_downIcon').style.cssText +="-webkit-transform:rotateZ(0);transform:rotateZ(0);;background-image:url(icon/little-loading.gif);background-size:20px 20px"
+                }
+            },ajaxfn)
+            //刷新请求
+            function ajaxfn(back){
+                back.success(function(){
+                    document.getElementById('drop_downText').innerText = '加载成功';
+					document.getElementById('drop_downIcon').style.cssText +="background-image:url(icon/ok.png);background-size:20px 20px"
+                })
+            }
+        </script>
+    </body>
+
+</html>
